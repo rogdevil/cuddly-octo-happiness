@@ -184,7 +184,7 @@ const IMAGE_FLAT_SIZE = IMAGE_HEIGHT * IMAGE_WIDTH * IMAGE_CHANNELS;
       </div>
       <div id="model"></div>
       <div className="result">
-        <p>Chances of violence: {per}%</p>
+        <p >Chances of violence: <span style={(parseInt(per) > 50 ? {color: 'green'}: {color: 'red'})}>{per}%</span></p>
       </div>
     </Content>
 

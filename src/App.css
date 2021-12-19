@@ -69,10 +69,11 @@ header
   color: #333;
 }
 
-.result{
+.result > p{
   text-align: center;
-  font-size: 20px;
+  font-size: 40px;
   font-weight: bold;
+  margin-top: 20px;
 }
 
 /* 
@@ -90,6 +91,16 @@ footer
 .merkoCenterKaro {
   height: 100px;
   position: relative;
+}
+
+#model{
+  width: 1000px;
+  background-color: black;
+  overflow-x: scroll;
+  margin: 0 auto;
+  color: green;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .ekaurclass {
