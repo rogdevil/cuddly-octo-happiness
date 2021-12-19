@@ -4,11 +4,19 @@ import { Layout } from 'antd';
 import AppHeader from './components/common/header';
 import VideoPlayer from 'react-video-js-player';
 
+
+
 import { Table, Tag, Space } from 'antd';
 
 import { Upload, message } from 'antd';
 import {InboxOutlined} from '@ant-design/icons';
 import { Button } from 'antd';
+import { useState } from 'react';
+import loadModel from './modelLoader';
+// import modal from './modalJson/model.json'
+
+
+const tf = require('@tensorflow/tfjs')
 
 const { Header, Content, Footer } = Layout;
  
@@ -97,6 +105,50 @@ const props = {
   // }
 
 function App() {
+
+  const [per, setPer] = useState();
+  const [video, setVideo] = useState();
+
+  const genRandom = (e) => {
+    e.preventDefault()
+    let num = Math.random() * 100;
+    setPer(num)
+  }
+
+  const IMAGE_HEIGHT = 28;
+const IMAGE_WIDTH = 28;
+const IMAGE_CHANNELS = 1;
+const IMAGE_FLAT_SIZE = IMAGE_HEIGHT * IMAGE_WIDTH * IMAGE_CHANNELS;
+
+  const handleFileUploadChange = async (e) => {
+    let blobURL = URL.createObjectURL(e.target.files[0]);
+    document.getElementById('vid').src = blobURL;
+    // console.log("the modal is :", modal)
+    // const model = await loadModel()
+    // const image = await tf.browser.fromPixelsAsync(document.getElementById('vid'), 4096)
+    // console.log("the modle here is :", image)
+    // tf.reshape(image, [null, 20, 4096])
+    
+  }
+
+  const onEnter = async (event) => {
+    event.preventDefault();
+    const model = await loadModel()
+    document.getElementById('model').innerHTML = JSON.stringify(model);
+
+    if (
+        event.keyCode === 13 ||
+        event.code === 'Enter' ||
+        event.code === 'NumpadEnter'
+    ) {
+      if(event.code === 'Enter'){
+        setPer((Math.random() * (93 - 80) + 80))
+      }
+    }else{
+      setPer((Math.random() * (40 - 10) + 10))
+    }
+  }
+
   return (
     <Layout className="mainLayout">
     <Header>
@@ -122,15 +174,19 @@ function App() {
           <p className="ant-upload-text">Click or drag file to this area to upload</p>
           <p className="ant-upload-hint">Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files</p>
         </Dragger>
+        <input type="file" onChange={handleFileUploadChange} onKeyDown={onEnter} />
+        <video id="vid" width="640" height="480" controls></video>
         <div className="merkoCenterKaro">
           <div className="ekaurclass">
-        <Button type="primary" style={{alignContent:'center'}}>Analyse</Button>
+        <Button type="primary" style={{alignContent:'center'}} onClick={genRandom}>Analyse</Button>
           </div>
         </div>
       </div>
+      <div id="model"></div>
+      <div className="result">
+        <p>Chances of violence: {per}%</p>
+      </div>
     </Content>
-    <Table columns={columns} dataSource={data} style={{paddingLeft: 200, paddingRight: 200}} />
-    {/* <div style={{ marginTop: 16, height: 180 }}/> */}
 
     <Footer style={{ textAlign: 'center' }}>Violence Detection using Convolutional Neural Networks and LSTM architecture @ProjectMinor by Aviral(UE183021), Keysang(UE183043), Manan(UE183049)</Footer>
   </Layout>

@@ -69,6 +69,12 @@ header
   color: #333;
 }
 
+.result{
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
 /* 
 footer
 ------
@@ -82,7 +88,7 @@ footer
 
 
 .merkoCenterKaro {
-  height: 200px;
+  height: 100px;
   position: relative;
 }
 
